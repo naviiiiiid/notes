@@ -1,0 +1,20 @@
+#!/bin/bash
+
+ME=`whoami`
+
+IPC_S=`ipcs -s | egrep "0x[0-9a-f]+ [0-9]+" | grep $ME | cut -f2 -d" "`
+IPC_M=`ipcs -m | egrep "0x[0-9a-f]+ [0-9]+" | grep $ME | cut -f2 -d" "`
+IPC_Q=`ipcs -q | egrep "0x[0-9a-f]+ [0-9]+" | grep $ME | cut -f2 -d" "`
+
+
+for id in $IPC_M; do
+  ipcrm -m $id;
+done
+
+for id in $IPC_S; do
+  ipcrm -s $id;
+done
+
+for id in $IPC_Q; do
+  ipcrm -q $id;
+done
